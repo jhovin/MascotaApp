@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-
+import org.springframework.web.bind.annotation.RequestParam;
 import pe.aplicacion.app.entities.Usuario;
 import pe.aplicacion.app.services.UsuarioService;
 
@@ -35,6 +35,19 @@ public class UsuarioController {
 	Usuario usuario=usuarioService.findById(id);
 	return usuario;
 	
+	}
+	@PostMapping("/usuarios")
+	public Usuario crear(@RequestParam("nombre") String nombre, @RequestParam("correo") String correo, @RequestParam("password")String password) throws Exception {
+		logger.info("call crear(" + nombre + ", " + correo+ ", " + password + ")");
+		
+		Usuario usuario = new Usuario();
+		usuario.setNombre(nombre);
+		usuario.setCorreo(correo);
+		usuario.setPassword(password);
+		
+		usuarioService.save(usuario);
+		
+		return usuario;
 	}
 	
 }
